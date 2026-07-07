@@ -1,4 +1,6 @@
+import { useEffect } from "react";
 import { useState } from "react";
+import Even from "./Even";
 
 
 function Counter({ name }) {
@@ -11,6 +13,35 @@ function Counter({ name }) {
 
     // let current = 0; 값은 바뀌어도 재랜더링 X
     let [current, setCurrent] = useState(0)
+
+    // Lifecycle 중 Mount에 해당하는 과정
+    // 의존성 배열을 비운경우,
+    // 해당 useEffect는 컴포넌트가 마운트 된다, 
+    useEffect(() => {
+        const id = setInterval(() => {
+            console.log("blink")
+        }, 1000);
+        console.log("생성", id)
+
+        return () => {
+            console.log("클린업");
+            clearInterval(id);
+        };
+    }, []);
+
+    
+    
+    // Lifecycle 중 Update에 해당하는 과정
+    // 카운터의 current값이 100이 되면 alert 출력, 그 외에는 로그 출력
+    // 의존성 배열에는 1개 이상의 의존성을 설정 가능
+    useEffect(() => {
+        if (current == 100) {
+            alert(100);
+        } else {
+            console.log(current);
+        }
+    }, [current]);
+
     return (
         <div>
             <h1>Counter App</h1>
@@ -22,6 +53,7 @@ function Counter({ name }) {
                 <button style={{margin: 5}} onClick = {() => {setCurrent(current = current + 100)}}>+100</button>
                 <button style={{margin: 5}} onClick = {() => {setCurrent(current = current - 100)}}>-100</button>
             </div>
+            {/* { current % 2 == 0 && <Even /> } */}
         </div>
     );
 }

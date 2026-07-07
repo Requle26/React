@@ -1,23 +1,15 @@
 import { useState } from "react"
+import TodoItem from "./TodoItem"
 
-export default function TodoList() {
-    const [todos, setTodos] = useState(["잠자기", "밥먹기"])
-    const [inputText, setInputText] = useState("");
-    const AddTodo = function() {
-        if (inputText.trim() === "") return;
-        setTodos([...todos, inputText])
-        setInputText("");
-    };
-
+export default function TodoList({ Props }) {
+    const [todos, setTodos] = useState(["집 가고싶다", "밥먹기", "잠자기"])
+    const addTodo = () => {
+        setTodos([...todos, Props])
+    }
     return (
         <div>
-            <input type="text" value={inputText} onChange={(e) => setInputText(e.target.value)}/>
-            <button onClick = {AddTodo}>추가</button>
-            <ul>
-                {todos.map((todo) => (
-                    <li>{todo}</li>
-                ))}
-            </ul>
+            <h1>TodoList</h1>
+            <TodoItem />
         </div>
     )
 }
