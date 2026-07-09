@@ -1,5 +1,6 @@
 import {useRef} from "react";
 import {useNavigate, useParams} from "react-router-dom";
+import { supabase } from "@/lib/supabase/client";
 
 const BoardEditPage = ({boards, onUpdate}) => {
     const {id} = useParams();
@@ -9,10 +10,15 @@ const BoardEditPage = ({boards, onUpdate}) => {
     const authorRef = useRef();
     const navigate = useNavigate();
 
-    const onUpdateBtnClick = () => {
+    const onUpdateBtnClick = async() => {
         const title = titleRef.current.value;
         const content = contentRef.current.value;
         const author = authorRef.current.value;
+
+        const { error } = await supabase
+        .from('tb_board')
+        .update({ title, content, })
+        .eq('id', board.id)
 
         onUpdate({id: board.id, title, content, author});
         navigate("/")
